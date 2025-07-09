@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%;
 }
 
 .logo {
@@ -39,4 +40,32 @@
 
 .read-the-docs {
   color: #888;
+}
+.posts {
+  width: 100%;
+}
+
+.posts ul {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  gap: 5em;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  /* padding: 3em; */
+  width: 80%;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.post :first-child {
+  margin-bottom: 2em;
+}
+
+.post :last-child {
+  margin-top: 2em;
 }

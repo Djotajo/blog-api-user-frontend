@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 
+function formatPostDate(dateString) {
+  const date = new Date(dateString);
+  const options = {
+    year: "numeric",
+    month: "short", // e.g., "Jul"
+    day: "numeric", // e.g., "2"
+  };
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+}
+
 function GetPosts() {
+  const [authorData, setAuthorData] = useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -9,23 +20,28 @@ function GetPosts() {
       const responseJson = await response.json();
       console.log(response);
       console.log(responseJson);
-      setPosts(responseJson);
+      setAuthorData(responseJson);
+      setPosts(responseJson.Post);
     }
 
     fetchPostData();
   }, []);
 
   return (
-    <div>
+    <div className="posts">
       <h1>Posts</h1>
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
             {" "}
-            {/* Assuming 'id' is a unique identifier for each post */}
-            <h2>{post.title}</h2>
-            <p>{post.text}</p>
-            {/* Display other post details as needed */}
+            <div className="post">
+              <h2>{post.title}</h2>
+              <p>{post.text}</p>
+              <p>
+                {authorData.username} on {formatPostDate(post.createdAt)}
+              </p>
+              <p>Comments: {post.Comment.length}</p>
+            </div>
           </li>
         ))}
       </ul>
