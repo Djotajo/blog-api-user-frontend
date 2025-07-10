@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-
-function formatPostDate(dateString) {
-  const date = new Date(dateString);
-  const options = {
-    year: "numeric",
-    month: "short", // e.g., "Jul"
-    day: "numeric", // e.g., "2"
-  };
-  return new Intl.DateTimeFormat("en-US", options).format(date);
-}
+import { FormatPostDate } from "./formatPostDate.jsx";
 
 function GetPosts() {
   const [authorData, setAuthorData] = useState(null);
@@ -38,7 +29,7 @@ function GetPosts() {
               <h2>{post.title}</h2>
               <p>{post.text}</p>
               <p>
-                {authorData.username} on {formatPostDate(post.createdAt)}
+                {authorData.username} on {FormatPostDate(post.createdAt)}
               </p>
               <p>Comments: {post.Comment.length}</p>
             </div>
