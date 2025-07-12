@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { FormatPostDate } from "./formatPostDate.jsx";
+import FormatPostDate from "./formatPostDate.jsx";
+import GetPost from "./getPost";
+import { Link } from "react-router-dom";
 
 function GetPosts() {
   const [authorData, setAuthorData] = useState(null);
@@ -27,7 +29,11 @@ function GetPosts() {
             {" "}
             <div className="post">
               <h2>{post.title}</h2>
+              <p>
+                <Link to={`/${post.id}`}>Open post</Link>{" "}
+              </p>
               <p>{post.text}</p>
+              <p>{post.id}</p>
               <p>
                 {authorData.username} on {FormatPostDate(post.createdAt)}
               </p>
