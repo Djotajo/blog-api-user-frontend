@@ -69,3 +69,17 @@
 .post :last-child {
   margin-top: 2em;
 }
+
+#comments-section {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  /* padding: 3em; */
+  width: 80%;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.comment {
+  border: 1px solid black;
+}
