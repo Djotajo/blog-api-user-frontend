@@ -47,7 +47,8 @@ function GetPost() {
               <cite className="comment-author">
                 {comment.commentByAuthor
                   ? comment.commentByAuthor.username
-                  : comment.commentByUser.username}
+                  : "greska"}
+                {/* comment.commentByUser.username} */}
               </cite>
               <time dateTime={comment.createdAt} className="comment-date">
                 {/* Format date for display here */}
