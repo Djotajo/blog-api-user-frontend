@@ -58,10 +58,17 @@ body {
 }
 
 .posts ul {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   list-style-type: none;
-  gap: 5em;
+  /* gap: 5em; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 1em;
+
+  /* grid-template-rows: repeat(3, auto); */
+  grid-auto-rows: 400px;
+  overflow: hidden;
 }
 
 .post {

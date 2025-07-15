@@ -9,7 +9,7 @@ function App() {
     <>
       <nav>
         <h1>Random Blog Website</h1>
-        <ul class="nav-links">
+        <ul className="nav-links">
           <li>
             <a href="/">Home</a>
           </li>
