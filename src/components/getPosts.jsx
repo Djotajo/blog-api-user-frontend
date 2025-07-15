@@ -25,20 +25,25 @@ function GetPosts() {
       <h1>Posts</h1>
       <ul>
         {posts.map((post) => (
-          <li key={post.id}>
+          <li key={post.id} className="posts-list-item">
             {" "}
-            <div className="post">
-              <h2>{post.title}</h2>
-              <p>
-                <Link to={`/${post.id}`}>Open post</Link>{" "}
-              </p>
-              <p>{post.text}</p>
-              <p>{post.id}</p>
-              <p>
-                {authorData.username} on {FormatPostDate(post.createdAt)}
-              </p>
-              <p>Comments: {post.Comment.length}</p>
-            </div>
+            <article className="post">
+              <h2>
+                <Link to={`/${post.id}`}>{post.title}</Link>
+              </h2>{" "}
+              <p className="post-text">{post.text}</p>
+              {/* <p>{post.id}</p> */}
+              <div className="post-footer">
+                {" "}
+                <span>
+                  {authorData.username} on {FormatPostDate(post.createdAt)}
+                </span>
+                <span className="post-comment">
+                  <i className="material-icons">comment</i>{" "}
+                  {post.Comment.length}
+                </span>
+              </div>
+            </article>
           </li>
         ))}
       </ul>
