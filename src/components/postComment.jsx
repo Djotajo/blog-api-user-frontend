@@ -72,19 +72,24 @@ function PostComment() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="comment-form">
         <fieldset>
           <div>
             <label htmlFor="comment">Comment: </label>
-            <input
-              type="text"
+            <textarea
               id="comment"
               name="comment"
               onChange={(e) => setComment(e.target.value)}
               required
               autoFocus
               aria-required="true"
-            />
+            ></textarea>
+            {/* <input
+              type="text"
+              id="comment"
+              name="comment"
+
+            /> */}
           </div>
           <button type="submit">
             {/* onClick={addNewItem} */}
