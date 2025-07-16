@@ -3,6 +3,46 @@ import { useParams } from "react-router-dom";
 import FormatPostDate from "./formatPostDate";
 
 function SignUp() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const userData = {
+      username,
+      password,
+      confirmPassword,
+    };
+
+    try {
+      const apiEndpoint = `http://localhost:3000/signup`;
+
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get user");
+      }
+
+      // 4. Get the response from the API (e.g., the new comment object)
+      const newComment = await response.json();
+      console.log("Comment added successfully:", newComment);
+
+      //   setComment("");
+      // Call a function from props to add the new comment to the list
+      //   if (onCommentSubmitted) {
+      //     onCommentSubmitted(newComment);
+      //   }
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
   //   const [authorData, setAuthorData] = useState(null);
   //   const [post, setPost] = useState(null);
   //   const { postId } = useParams();
@@ -26,29 +66,14 @@ function SignUp() {
 
   return (
     <>
-      <form method="POST" action="/signup" className="new-member-form">
-        <label htmlFor="firstName">First Name</label>
-        <input
-          type="text"
-          name="firstName"
-          id="firstName"
-          placeholder="First name"
-          required
-        />
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          type="text"
-          name="lastName"
-          id="lastName"
-          placeholder="Last name"
-          required
-        />
+      <form onSubmit={handleSubmit} className="new-member-form">
         <label htmlFor="username">Username</label>
         <input
           type="text"
           name="username"
           id="username"
           placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
         />
 
         <label htmlFor="password">Password </label>
@@ -62,6 +87,7 @@ function SignUp() {
           id="password"
           placeholder="password"
           required
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <label htmlFor="confirmPassword">Confirm Password</label>
@@ -71,18 +97,8 @@ function SignUp() {
           id="confirmPassword"
           placeholder="Confirm password"
           required
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
-
-        <label htmlFor="isAdmin">
-          is Admin?
-          <input
-            type="checkbox"
-            name="isAdmin"
-            id="isAdmin"
-            placeholder=""
-            required
-          />
-        </label>
 
         <button type="submit">Submit</button>
       </form>
