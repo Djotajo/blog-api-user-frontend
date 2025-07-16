@@ -264,3 +264,10 @@ footer {
     margin-top: 1rem;
   }
 }
+
+.login-form,
+.new-member-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15vh;
+}
