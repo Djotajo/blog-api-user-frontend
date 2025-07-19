@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import FormatPostDate from "./formatPostDate";
 import PostComment from "./postComment";
@@ -12,8 +12,6 @@ function GetPost() {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);
       const responseJson = await response.json();
-      console.log(response);
-      console.log(responseJson);
       setAuthorData(responseJson.author);
       setPost(responseJson);
     }
@@ -21,9 +19,11 @@ function GetPost() {
     fetchPostData();
   }, [postId]);
 
+  const paragraphs = useMemo(() => {
+    return post?.text ? post.text.split("\n\n") : [];
+  }, [post?.text]);
+
   if (!post) {
-    // You could differentiate between initial loading and not found here if needed
-    // For simplicity, we'll just show a generic message.
     return <div className="post">Loading or Post not found...</div>;
   }
 
@@ -32,7 +32,11 @@ function GetPost() {
       <div className="full-post">
         <section className="post-content">
           <h1>{post.title}</h1>
-          <p>{post.text}</p>
+          <div>
+            {paragraphs.map((p, index) => (
+              <p key={index}>{p}</p>
+            ))}
+          </div>
           <p>
             {authorData.username} on {FormatPostDate(post.createdAt)}
           </p>
@@ -52,21 +56,16 @@ function GetPost() {
           {post.Comment.map((comment, index) => (
             <article key={comment.id || index} className="comment">
               <header>
-                {/* Assuming comment object has author and timestamp */}
                 <cite className="comment-author">
                   {comment.commentByAuthor
                     ? comment.commentByAuthor.username
                     : comment.commentByUser.username}
-                  {/* comment.commentByUser.username} */}
                 </cite>
                 <time dateTime={comment.createdAt} className="comment-date">
-                  {/* Format date for display here */}
                   {new Date(comment.createdAt).toLocaleDateString()}
                 </time>
               </header>
               <p className="comment-content">{comment.text}</p>
-              {/* Optionally, you might have nested comments (replies) here,
-          which could also be <article> elements, possibly within an <ol> or <ul> if structured. */}
             </article>
           ))}
         </section>
