@@ -1,12 +1,23 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import FormatPostDate from "./formatPostDate";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(""); // State to hold login error messages
+  const [loggedInUser, setLoggedInUser] = useState(null); // New state to temporarily hold decoded user info for display
+  const [tokenReceived, setTokenReceived] = useState(null); // New state to hold the raw token
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoginError(""); // Clear any previous errors on new submission
+    setLoggedInUser(null); // Clear previous user info
+    setTokenReceived(null); // Clear previous token
 
     const userData = {
       username: username,
@@ -25,46 +36,75 @@ function LogIn() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get user");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to log in.");
       }
 
-      // 4. Get the response from the API (e.g., the new comment object)
-      const newComment = await response.json();
-      console.log("Comment added successfully:", newComment);
+      const responseData = await response.json();
+      console.log("Login successful:", responseData);
 
-      //   setComment("");
-      // Call a function from props to add the new comment to the list
-      //   if (onCommentSubmitted) {
-      //     onCommentSubmitted(newComment);
-      //   }
+      const token = responseData.token;
+
+      if (token) {
+        localStorage.setItem("jwt_token", token);
+        setTokenReceived(token);
+        console.log("JWT Token stored in localStorage.");
+
+        // 3. Decode the token to get user information (username and id)
+        // This decoding is *only* for client-side display/initial check.
+        // The authoritative source for user identity is always the backend verifying the token.
+        try {
+          const decodedToken = jwtDecode(token);
+          const { username: loggedInUsername, id: loggedInUserId } =
+            decodedToken;
+
+          // Store decoded info locally in this component's state for confirmation
+          setLoggedInUser({ username: loggedInUsername, id: loggedInUserId });
+          console.log(
+            `Decoded user: ${loggedInUsername} (ID: ${loggedInUserId})`
+          );
+
+          // --- Placeholder for Step 2: Global State Update (AuthContext) ---
+          // In the next step, after creating AuthContext, you would replace or add:
+          // login(loggedInUsername, loggedInUserId);
+          // (assuming 'login' is a function from useAuth() in AuthContext)
+          // --- END Placeholder ---
+
+          // 4. Navigate to a different page after successful login
+          // (You can uncomment this and direct it to your dashboard or home page)
+          // navigate('/dashboard');
+        } catch (decodeError) {
+          console.error(
+            "Error decoding JWT token on client-side:",
+            decodeError
+          );
+          // If the token itself is invalid or corrupted, clear it and inform the user
+          localStorage.removeItem("jwt_token");
+          setLoginError(
+            "Login successful, but there was an issue decoding the token. Please try again."
+          );
+          setLoggedInUser(null);
+          setTokenReceived(null);
+        }
+      } else {
+        setLoginError(
+          "Login successful, but no token was received from the server. Please contact support."
+        );
+      }
     } catch (error) {
-      console.error("Error submitting comment:", error);
+      console.error("Error during login request:", error);
+      setLoginError(error.message); // Display the error message from the thrown error
+      setLoggedInUser(null);
+      setTokenReceived(null);
     }
   };
-  //   const [authorData, setAuthorData] = useState(null);
-  //   const [post, setPost] = useState(null);
-  //   const { postId } = useParams();
-
-  //   useEffect(() => {
-  //     async function fetchPostData() {
-  //       const response = await fetch(`http://localhost:3000/posts/${postId}`);
-  //       const responseJson = await response.json();
-  //       console.log(response);
-  //       console.log(responseJson);
-  //       setAuthorData(responseJson.author);
-  //       setPost(responseJson);
-  //     }
-
-  //     fetchPostData();
-  //   }, [postId]);
-
-  //   if (!post) {
-  //     return <div className="post">Loading or Post not found...</div>;
-  //   }
 
   return (
     <>
       <form onSubmit={handleSubmit} className="login-form">
+        <h2>Log In</h2>
+        {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+
         <label htmlFor="username">Username</label>
         <input
           id="username"
@@ -72,6 +112,8 @@ function LogIn() {
           placeholder="username"
           type="text"
           onChange={(e) => setUsername(e.target.value)}
+          value={username}
+          required
         />
         <label htmlFor="password">Password</label>
         <input
@@ -79,10 +121,30 @@ function LogIn() {
           name="password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          required
         />
         <button type="submit">Log In</button>
       </form>
       <a href="/signup">No Account? Sign Up</a>
+
+      {tokenReceived && (
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "10px",
+            border: "1px solid green",
+          }}
+        >
+          <p>Login Successful! Token received and stored in localStorage.</p>
+          {loggedInUser && (
+            <p>
+              Decoded User: <strong>{loggedInUser.username}</strong> (ID:{" "}
+              {loggedInUser.id})
+            </p>
+          )}
+        </div>
+      )}
     </>
   );
 }

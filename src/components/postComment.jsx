@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 // import { v4 as uuidv4 } from "uuid";
 
 function PostComment() {
@@ -9,14 +10,28 @@ function PostComment() {
 
   const { postId } = useParams();
 
+  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
+
+  // Handle the initial loading state (checking token in localStorage)
+  if (loadingInitial) {
+    return <p>Loading user information...</p>;
+  }
+
+  // Check if there is a logged-in user
+  if (!currentUser || !currentUser.isAuthenticated) {
+    return <p>You are not logged in.</p>;
+  }
+
+  console.log(currentUser.id);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const commentData = {
       text: comment,
-      authorId: "prvi",
+      // authorId: "prvi",
+      userId: currentUser.id,
       parentId: postId,
-      userId: null,
+      // userId: null,
     };
 
     console.log(commentData);
