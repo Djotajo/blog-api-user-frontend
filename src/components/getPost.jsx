@@ -2,6 +2,9 @@ import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import FormatPostDate from "./formatPostDate";
 import PostComment from "./postComment";
+import EditComment from "./editComment";
+import { useAuth } from "../context/AuthContext";
+const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
 function GetPost() {
   const [authorData, setAuthorData] = useState(null);
@@ -66,6 +69,13 @@ function GetPost() {
                 </time>
               </header>
               <p className="comment-content">{comment.text}</p>
+              {/* provjeriti */}
+              {currentUser} {}
+              {comment.commentByUser.id === currentUser.id ? (
+                <EditComment commentObject={comment} />
+              ) : (
+                "Log in to edit"
+              )}
             </article>
           ))}
         </section>

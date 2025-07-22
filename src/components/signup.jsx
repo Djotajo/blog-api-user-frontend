@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import FormatPostDate from "./formatPostDate";
+import { useState } from "react";
 
 function SignUp() {
   const [username, setUsername] = useState("");
@@ -33,36 +31,10 @@ function SignUp() {
       // 4. Get the response from the API (e.g., the new comment object)
       const newComment = await response.json();
       console.log("Comment added successfully:", newComment);
-
-      //   setComment("");
-      // Call a function from props to add the new comment to the list
-      //   if (onCommentSubmitted) {
-      //     onCommentSubmitted(newComment);
-      //   }
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
   };
-  //   const [authorData, setAuthorData] = useState(null);
-  //   const [post, setPost] = useState(null);
-  //   const { postId } = useParams();
-
-  //   useEffect(() => {
-  //     async function fetchPostData() {
-  //       const response = await fetch(`http://localhost:3000/posts/${postId}`);
-  //       const responseJson = await response.json();
-  //       console.log(response);
-  //       console.log(responseJson);
-  //       setAuthorData(responseJson.author);
-  //       setPost(responseJson);
-  //     }
-
-  //     fetchPostData();
-  //   }, [postId]);
-
-  //   if (!post) {
-  //     return <div className="post">Loading or Post not found...</div>;
-  //   }
 
   return (
     <>
