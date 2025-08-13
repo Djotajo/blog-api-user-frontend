@@ -4,12 +4,12 @@ import FormatPostDate from "./formatPostDate";
 import PostComment from "./postComment";
 import EditComment from "./editComment";
 import { useAuth } from "../context/AuthContext";
-const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
 function GetPost() {
   const [authorData, setAuthorData] = useState(null);
   const [post, setPost] = useState(null);
   const { postId } = useParams();
+  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
   useEffect(() => {
     async function fetchPostData() {

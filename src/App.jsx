@@ -58,7 +58,7 @@ function App() {
     <AuthProvider>
       <Router>
         <nav>
-          <h1>Random Blog Website</h1>
+          <h1>Random Blog Websites</h1>
           <ul className="nav-links">
             <li>
               <Link to="/">Home</Link>

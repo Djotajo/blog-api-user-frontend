@@ -22,8 +22,10 @@ function GetPosts() {
   return (
     <>
       <div className="hero">
-        <div className="hero-left">Text</div>
-        <div className="hero-right">Image</div>
+        <div className="hero-left"></div>
+        <div className="hero-right">
+          <h2>Just another random blog for TOP</h2>
+        </div>
       </div>
 
       <div className="posts">

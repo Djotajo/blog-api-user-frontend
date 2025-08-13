@@ -200,12 +200,22 @@ nav h1 {
   min-height: 50vh;
   width: 100%;
   display: flex;
+  margin-top: 10vh;
 }
 
 .hero-left,
 .hero-right {
   min-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.hero-left {
+  background-image: url("../public/IMG20250723164259.jpg");
+  background-size: cover;
+}
+
 footer {
   display: flex;
   justify-content: center;
