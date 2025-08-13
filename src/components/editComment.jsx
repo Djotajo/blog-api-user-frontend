@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-function EditComment(commentObject) {
+function EditComment({ commentObject }, key) {
+  console.log(commentObject);
   const [comment, setComment] = useState(commentObject.text);
+
   const [errorMessage, setErrorMessage] = useState("");
 
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
+
+  const { postId } = useParams();
+
+  const commentId = commentObject.id;
+
+  console.log(commentId);
 
   // Handle the initial loading state (checking token in localStorage)
   if (loadingInitial) {
@@ -22,16 +30,19 @@ function EditComment(commentObject) {
     e.preventDefault();
 
     const commentData = {
+      id: commentId,
       text: comment,
+      userId: currentUser.id,
+      parentId: postId,
     };
 
     try {
       // provjeriti api endpoint
-      const apiEndpoint = `http://localhost:3000/posts/${postId}`;
+      const apiEndpoint = `http://localhost:3000/posts/${postId}/${commentId}`;
 
       const response = await fetch(apiEndpoint, {
         // provjeriti metodu
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json", // Tell the API we're sending JSON
         },

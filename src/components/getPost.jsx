@@ -59,6 +59,7 @@ function GetPost() {
           {post.Comment.map((comment, index) => (
             <article key={comment.id || index} className="comment">
               <header>
+                <p>{comment.id}</p>
                 <cite className="comment-author">
                   {comment.commentByAuthor
                     ? comment.commentByAuthor.username
@@ -70,12 +71,24 @@ function GetPost() {
               </header>
               <p className="comment-content">{comment.text}</p>
               {/* provjeriti */}
-              {currentUser} {}
-              {comment.commentByUser.id === currentUser.id ? (
+              {console.log(currentUser)} {}
+              {comment.commentByUser ? (
+                currentUser && comment.commentByUser.id === currentUser.id ? (
+                  <EditComment commentObject={comment} key={comment.id} />
+                ) : (
+                  `Log in user to edit`
+                )
+              ) : currentUser &&
+                comment.commentByAuthor.id === currentUser.id ? (
                 <EditComment commentObject={comment} />
               ) : (
                 "Log in to edit"
               )}
+              {/* {currentUser && comment.commentByUser.id === currentUser.id ? (
+                <EditComment commentObject={comment} />
+              ) : (
+                "Log in to edit"
+              )} */}
             </article>
           ))}
         </section>
