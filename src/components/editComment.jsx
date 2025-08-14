@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 function EditComment({ commentObject }, key) {
   console.log(commentObject);
   const [comment, setComment] = useState(commentObject.text);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -56,7 +57,7 @@ function EditComment({ commentObject }, key) {
       // 4. Get the response from the API (e.g., the new comment object)
       const editedComment = await response.json();
       console.log("Comment edited successfully:", editedComment);
-
+      setIsEditing(false);
       setComment("");
     } catch (error) {
       console.error("Error editing comment:", error);
@@ -65,25 +66,29 @@ function EditComment({ commentObject }, key) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="comment-form">
-        <fieldset>
-          <div>
-            <label htmlFor="comment">Comment: </label>
-            <textarea
-              id="comment"
-              name="comment"
-              onChange={(e) => setComment(e.target.value)}
-              required
-              autoFocus
-              aria-required="true"
-            ></textarea>
-          </div>
-          <button type="submit">Submit</button>
-          <button>Cancel</button>
-          {/* onClick={handleCancelSubmit} */}
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-        </fieldset>
-      </form>
+      <button onClick={() => setIsEditing(true)}>Edit</button>
+      {isEditing && (
+        <form onSubmit={handleSubmit} className="comment-form">
+          <fieldset>
+            <div>
+              <label htmlFor="comment">Comment: </label>
+              <textarea
+                id="comment"
+                name="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                required
+                autoFocus
+                aria-required="true"
+              ></textarea>
+            </div>
+            <button type="submit">Submit</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
+            {/* onClick={handleCancelSubmit} */}
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          </fieldset>
+        </form>
+      )}
     </>
   );
 }

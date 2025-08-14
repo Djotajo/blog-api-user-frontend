@@ -44,16 +44,12 @@ function AuthStatus() {
         </button>
       </li>
     );
+  } else {
+    return <Link to="/login">Log In</Link>;
   }
-
-  // If not authenticated, render nothing from this component.
-  // The 'Log In' link will always be in the main navigation.
-  return null;
 }
 
 function App() {
-  // const { currentUser } = useAuth();
-
   return (
     <AuthProvider>
       <Router>
@@ -68,9 +64,6 @@ function App() {
             </li>
             <li>
               <Link to="/categories">About</Link>
-            </li>
-            <li>
-              <a href="/login">Log In</a>
             </li>
             <AuthStatus />
           </ul>

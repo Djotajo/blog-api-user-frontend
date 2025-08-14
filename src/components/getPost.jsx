@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import FormatPostDate from "./formatPostDate";
 import PostComment from "./postComment";
 import EditComment from "./editComment";
+import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
 
 function GetPost() {
@@ -20,7 +21,7 @@ function GetPost() {
     }
 
     fetchPostData();
-  }, [postId]);
+  }, [post]);
 
   const paragraphs = useMemo(() => {
     return post?.text ? post.text.split("\n\n") : [];
@@ -71,10 +72,12 @@ function GetPost() {
               </header>
               <p className="comment-content">{comment.text}</p>
               {/* provjeriti */}
-              {console.log(currentUser)} {}
               {comment.commentByUser ? (
                 currentUser && comment.commentByUser.id === currentUser.id ? (
-                  <EditComment commentObject={comment} key={comment.id} />
+                  <>
+                    <EditComment commentObject={comment} key={comment.id} />
+                    <DeleteComment commentObject={comment} />
+                  </>
                 ) : (
                   `Log in user to edit`
                 )

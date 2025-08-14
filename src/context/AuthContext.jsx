@@ -40,8 +40,24 @@ export const AuthProvider = ({ children }) => {
     setLoadingInitial(false); // Finished initial check
   }, []);
 
-  const login = (username, id) => {
-    setCurrentUser({ username, id, isAuthenticated: true });
+  // const login = (username, id) => {
+  //   setCurrentUser({ username, id, isAuthenticated: true });
+  // };
+
+  const login = (token) => {
+    // Now accepts the token
+    // Save the token to localStorage
+    localStorage.setItem("jwt_token", token);
+
+    // Decode the token to get the user info
+    const decoded = jwtDecode(token);
+
+    // Set the user state with data from the decoded token
+    setCurrentUser({
+      username: decoded.username,
+      id: decoded.id,
+      isAuthenticated: true,
+    });
   };
   const logout = () => {
     localStorage.removeItem("jwt_token"); // Remove token from localStorage

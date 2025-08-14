@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormatPostDate from "./formatPostDate";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../context/AuthContext";
 
 function LogIn() {
   const [username, setUsername] = useState("");
@@ -10,14 +11,16 @@ function LogIn() {
   const [loggedInUser, setLoggedInUser] = useState(null); // New state to temporarily hold decoded user info for display
   const [tokenReceived, setTokenReceived] = useState(null); // New state to hold the raw token
 
+  const { login } = useAuth();
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoginError(""); // Clear any previous errors on new submission
-    setLoggedInUser(null); // Clear previous user info
-    setTokenReceived(null); // Clear previous token
+    // setLoggedInUser(null);
+    // setTokenReceived(null);
 
     const userData = {
       username: username,
@@ -41,52 +44,56 @@ function LogIn() {
       }
 
       const responseData = await response.json();
+
       console.log("Login successful:", responseData);
 
       const token = responseData.token;
 
       if (token) {
-        localStorage.setItem("jwt_token", token);
-        setTokenReceived(token);
-        console.log("JWT Token stored in localStorage.");
+        login(token);
+        console.log("Login sauccessful, global state updated.");
+        navigate("/");
+      }
+      // localStorage.setItem("jwt_token", token);
+      // setTokenReceived(token);
+      // console.log("JWT Token stored in localStorage.");
 
-        // 3. Decode the token to get user information (username and id)
-        // This decoding is *only* for client-side display/initial check.
-        // The authoritative source for user identity is always the backend verifying the token.
-        try {
-          const decodedToken = jwtDecode(token);
-          const { username: loggedInUsername, id: loggedInUserId } =
-            decodedToken;
+      // 3. Decode the token to get user information (username and id)
+      // This decoding is *only* for client-side display/initial check.
+      // The authoritative source for user identity is always the backend verifying the token.
+      // try {
+      //   const decodedToken = jwtDecode(token);
+      //   const { username: loggedInUsername, id: loggedInUserId } =
+      //     decodedToken;
+      //   setLoggedInUser({ username: loggedInUsername, id: loggedInUserId });
+      //   console.log(
+      //     `Decoded user: ${loggedInUsername} (ID: ${loggedInUserId})`
+      //   );
 
-          // Store decoded info locally in this component's state for confirmation
-          setLoggedInUser({ username: loggedInUsername, id: loggedInUserId });
-          console.log(
-            `Decoded user: ${loggedInUsername} (ID: ${loggedInUserId})`
-          );
+      // --- Placeholder for Step 2: Global State Update (AuthContext) ---
+      // In the next step, after creating AuthContext, you would replace or add:
+      // login(loggedInUsername, loggedInUserId);
+      // (assuming 'login' is a function from useAuth() in AuthContext)
+      // --- END Placeholder ---
 
-          // --- Placeholder for Step 2: Global State Update (AuthContext) ---
-          // In the next step, after creating AuthContext, you would replace or add:
-          // login(loggedInUsername, loggedInUserId);
-          // (assuming 'login' is a function from useAuth() in AuthContext)
-          // --- END Placeholder ---
-
-          // 4. Navigate to a different page after successful login
-          // (You can uncomment this and direct it to your dashboard or home page)
-          // navigate('/dashboard');
-        } catch (decodeError) {
-          console.error(
-            "Error decoding JWT token on client-side:",
-            decodeError
-          );
-          // If the token itself is invalid or corrupted, clear it and inform the user
-          localStorage.removeItem("jwt_token");
-          setLoginError(
-            "Login successful, but there was an issue decoding the token. Please try again."
-          );
-          setLoggedInUser(null);
-          setTokenReceived(null);
-        }
-      } else {
+      // 4. Navigate to a different page after successful login
+      // (You can uncomment this and direct it to your dashboard or home page)
+      // navigate('/dashboard');
+      //   } catch (decodeError) {
+      //     console.error(
+      //       "Error decoding JWT token on client-side:",
+      //       decodeError
+      //     );
+      //     // If the token itself is invalid or corrupted, clear it and inform the user
+      //     localStorage.removeItem("jwt_token");
+      //     setLoginError(
+      //       "Login successful, but there was an issue decoding the token. Please try again."
+      //     );
+      //     setLoggedInUser(null);
+      //     setTokenReceived(null);
+      //   }
+      // }
+      else {
         setLoginError(
           "Login successful, but no token was received from the server. Please contact support."
         );
