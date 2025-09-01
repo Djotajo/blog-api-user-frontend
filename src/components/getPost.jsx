@@ -7,7 +7,7 @@ import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
 
 function GetPost() {
-  const [authorData, setAuthorData] = useState(null);
+  // const [authorData, setAuthorData] = useState(null);
   const [post, setPost] = useState(null);
   const { postId } = useParams();
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
@@ -16,12 +16,13 @@ function GetPost() {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);
       const responseJson = await response.json();
-      setAuthorData(responseJson.author);
+      // setAuthorData(responseJson.author);
+      console.log(responseJson);
       setPost(responseJson);
     }
 
     fetchPostData();
-  }, [post]);
+  }, []);
 
   const paragraphs = useMemo(() => {
     return post?.text ? post.text.split("\n\n") : [];
@@ -42,7 +43,8 @@ function GetPost() {
             ))}
           </div>
           <p>
-            {authorData.username} on {FormatPostDate(post.createdAt)}
+            {/* {authorData.username}  */}
+            on {FormatPostDate(post.createdAt)}
           </p>
 
           <p>Comments: {post.Comment.length}</p>

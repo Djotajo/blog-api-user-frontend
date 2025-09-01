@@ -71,6 +71,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<GetPosts />} />
+          <Route path="/posts" element={<GetPosts />} />
+
           <Route path="/items" element={<GetPosts />} />
           {/* This route will capture the post.id */}
           <Route path="/:postId" element={<GetPost />} />

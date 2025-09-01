@@ -3,15 +3,17 @@ import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
 
 function GetPosts() {
-  const [authorData, setAuthorData] = useState(null);
+  // const [authorData, setAuthorData] = useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/`);
       const responseJson = await response.json();
-      setAuthorData(responseJson);
-      setPosts(responseJson.Post);
+      // setAuthorData(responseJson);
+      console.log(responseJson);
+      setPosts(responseJson);
+      console.log(posts);
     }
 
     fetchPostData();
@@ -40,7 +42,8 @@ function GetPosts() {
                 <div className="post-footer">
                   {" "}
                   <span>
-                    {authorData.username} on {FormatPostDate(post.createdAt)}
+                    {/* {authorData.username}  */}
+                    on {FormatPostDate(post.createdAt)}
                   </span>
                   <span className="post-comment">
                     <i className="material-icons">comment</i>{" "}
