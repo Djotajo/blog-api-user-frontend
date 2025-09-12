@@ -28,11 +28,10 @@ function SignUp() {
         throw new Error("Failed to get user");
       }
 
-      // 4. Get the response from the API (e.g., the new comment object)
-      const newComment = await response.json();
-      console.log("Comment added successfully:", newComment);
+      const newUser = await response.json();
+      console.log("Profile created successfully:", newUser);
     } catch (error) {
-      console.error("Error submitting comment:", error);
+      console.error("Error creating profile:", error);
     }
   };
 

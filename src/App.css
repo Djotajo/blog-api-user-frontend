@@ -257,3 +257,8 @@ footer {
   flex-direction: column;
   margin-top: 15vh;
 }
+
+.latest-posts-content {
+  display: flex;
+  /* flex-direction: column; */
+}

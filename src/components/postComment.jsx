@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-// import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 function PostComment() {
-  //   const commentId = uuidv4();
   const [comment, setComment] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const { postId } = useParams();
 
@@ -22,22 +22,17 @@ function PostComment() {
     return <p>You are not logged in.</p>;
   }
 
-  console.log(currentUser.id);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const commentData = {
       text: comment,
-      // authorId: "prvi",
       userId: currentUser.id,
       parentId: postId,
-      // userId: null,
     };
 
-    console.log(commentData);
-
     try {
-      const apiEndpoint = `http://localhost:3000/posts/${postId}`;
+      const apiEndpoint = `http://localhost:3000/posts/${postId}/comments`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",
@@ -56,10 +51,7 @@ function PostComment() {
       console.log("Comment added successfully:", newComment);
 
       setComment("");
-      // Call a function from props to add the new comment to the list
-      //   if (onCommentSubmitted) {
-      //     onCommentSubmitted(newComment);
-      //   }
+      navigate(0);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -67,22 +59,6 @@ function PostComment() {
   //   function handleCancelSubmit(event) {
   //     event.preventDefault();
   //     handleCancel();
-  //   }
-
-  //   function addNewItem(event) {
-  //     event.preventDefault();
-
-  //     if (skill.trim() !== "") {
-  //       setErrorMessage("");
-  //       const newItem = {
-  //         id: skillId,
-  //         skill: skill,
-  //       };
-  //       handleArrayChange(skillArray, setSkillArray, newItem);
-  //       setAddNew(!addNew);
-  //     } else {
-  //       setErrorMessage("Please fill in all required fields.");
-  //     }
   //   }
 
   return (
@@ -99,17 +75,8 @@ function PostComment() {
               autoFocus
               aria-required="true"
             ></textarea>
-            {/* <input
-              type="text"
-              id="comment"
-              name="comment"
-
-            /> */}
           </div>
-          <button type="submit">
-            {/* onClick={addNewItem} */}
-            Submit
-          </button>
+          <button type="submit">Submit</button>
           <button>Cancel</button>
           {/* onClick={handleCancelSubmit} */}
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function EditComment({ commentObject }, key) {
-  console.log(commentObject);
   const [comment, setComment] = useState(commentObject.text);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -15,7 +15,7 @@ function EditComment({ commentObject }, key) {
 
   const commentId = commentObject.id;
 
-  console.log(commentId);
+  const navigate = useNavigate();
 
   // Handle the initial loading state (checking token in localStorage)
   if (loadingInitial) {
@@ -39,7 +39,7 @@ function EditComment({ commentObject }, key) {
 
     try {
       // provjeriti api endpoint
-      const apiEndpoint = `http://localhost:3000/posts/${postId}/${commentId}`;
+      const apiEndpoint = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
 
       const response = await fetch(apiEndpoint, {
         // provjeriti metodu
@@ -59,6 +59,7 @@ function EditComment({ commentObject }, key) {
       console.log("Comment edited successfully:", editedComment);
       setIsEditing(false);
       setComment("");
+      navigate(0);
     } catch (error) {
       console.error("Error editing comment:", error);
     }

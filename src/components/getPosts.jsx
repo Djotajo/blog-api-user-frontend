@@ -3,7 +3,6 @@ import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
 
 function GetPosts() {
-  // const [authorData, setAuthorData] = useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -11,9 +10,7 @@ function GetPosts() {
       const response = await fetch(`http://localhost:3000/posts/`);
       const responseJson = await response.json();
       // setAuthorData(responseJson);
-      console.log(responseJson);
       setPosts(responseJson);
-      console.log(posts);
     }
 
     fetchPostData();
@@ -21,13 +18,6 @@ function GetPosts() {
 
   return (
     <>
-      <div className="hero">
-        <div className="hero-left"></div>
-        <div className="hero-right">
-          <h2>Just another random blog for TOP</h2>
-        </div>
-      </div>
-
       <div className="posts">
         <h1>Posts</h1>
         <ul>

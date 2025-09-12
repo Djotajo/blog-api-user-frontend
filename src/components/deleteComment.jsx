@@ -1,23 +1,23 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function DeleteComment({ commentObject }) {
   const commentId = commentObject.id;
   const { postId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // provjeriti api endpoint
-      const apiEndpoint = `http://localhost:3000/posts/${postId}/${commentId}`;
+      const apiEndpoint = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
 
       const response = await fetch(apiEndpoint, {
-        // provjeriti metodu
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json", // Tell the API we're sending JSON
+          "Content-Type": "application/json",
         },
       });
 
@@ -25,9 +25,9 @@ function DeleteComment({ commentObject }) {
         throw new Error("Failed to delete comment");
       }
 
-      // 4. Get the response from the API (e.g., the new comment object)
       const deletedComment = await response.json();
       console.log("Comment delete successfully:", deletedComment);
+      navigate(0);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
