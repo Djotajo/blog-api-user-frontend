@@ -36,43 +36,15 @@ function GetLatestPost() {
               <li key={post.id} className="posts-list-item">
                 {" "}
                 <article className="post">
-                  <h2>
-                    <Link to={`/posts/${post.id}`}>{post.title}</Link>
-                  </h2>{" "}
-                  <p className="post-text">{post.text}</p>
-                  <div className="post-footer">
-                    {" "}
-                    <span>
-                      {post.author.username} on {FormatPostDate(post.createdAt)}
-                    </span>
-                    <hr />
-                    <span className="post-comment">
-                      <i className="material-icons">comment</i>{" "}
-                      {post.Comment.length}
-                    </span>
-                  </div>
-                </article>
-              </li>
-            ))}{" "}
-          </div>
-        </div>
-      ) : (
-        <p>No published posts yet.</p>
-      )}
-      <div>
-        {stickyPosts && (
-          <div className="latest-posts-container">
-            <div className="latest-posts-header">
-              <h2>Top Articles</h2>
-            </div>
-            <div className="latest-posts-content">
-              {stickyPosts.map((post) => (
-                <li key={post.id} className="posts-list-item">
-                  {" "}
-                  <article className="post">
-                    <h2>
+                  <img
+                    src="public/og-logo-2bdf3a30.png"
+                    alt=""
+                    className="post-image"
+                  />
+                  <div className="post-content">
+                    <h3>
                       <Link to={`/posts/${post.id}`}>{post.title}</Link>
-                    </h2>{" "}
+                    </h3>{" "}
                     <p className="post-text">{post.text}</p>
                     <div className="post-footer">
                       {" "}
@@ -86,14 +58,55 @@ function GetLatestPost() {
                         {post.Comment.length}
                       </span>
                     </div>
-                  </article>
-                </li>
-              ))}{" "}
-            </div>
-            <p>{stickyPosts.title}</p>
+                  </div>
+                </article>
+              </li>
+            ))}{" "}
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <p>No published posts yet.</p>
+      )}
+      {stickyPosts && (
+        <div className="latest-posts-container">
+          <div className="latest-posts-header">
+            <h2>Top Articles</h2>
+          </div>
+          <div className="latest-posts-content">
+            {stickyPosts.map((post) => (
+              <li key={post.id} className="posts-list-item">
+                {" "}
+                <article className="post">
+                  <img
+                    src="public/og-logo-2bdf3a30.png"
+                    alt=""
+                    className="post-image"
+                  />
+                  <div className="post-content">
+                    <h3>
+                      <Link to={`/posts/${post.id}`}>{post.title}</Link>
+                    </h3>{" "}
+                    <p className="post-text">{post.text}</p>
+                    <div className="post-footer">
+                      {" "}
+                      <span>
+                        {post.author.username} on{" "}
+                        {FormatPostDate(post.createdAt)}
+                      </span>
+                      <hr />
+                      <span className="post-comment">
+                        <i className="material-icons">comment</i>{" "}
+                        {post.Comment.length}
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}{" "}
+          </div>
+          <p>{stickyPosts.title}</p>
+        </div>
+      )}
     </>
   );
 }

@@ -36,7 +36,7 @@ function SignUp() {
   };
 
   return (
-    <>
+    <div className="login-fullscreen">
       <form onSubmit={handleSubmit} className="new-member-form">
         <label htmlFor="username">Username</label>
         <input
@@ -74,7 +74,7 @@ function SignUp() {
         <button type="submit">Submit</button>
       </form>
       <a href="./login">Already have an account? Sign in here</a>
-    </>
+    </div>
   );
 }
 

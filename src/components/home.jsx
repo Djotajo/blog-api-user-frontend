@@ -17,12 +17,15 @@ function Home() {
         currentUser.role === "author" && ( */}
 
       <div className="hero">
-        <div className="hero-left"></div>
+        {/* <div className="hero-left"></div>
         <div className="hero-right">
-          <h2>Just another random blog for TOP</h2>
-        </div>
+          
+        </div> */}
+        <h1>Just another random blog for TOP</h1>
       </div>
       <div className="dashboard">
+        <GetLatestPost />
+
         {/* <Link to="/dashboard/posts" className="dashboard-item">
           <img src="/public/see-posts.png" alt="View all posts" />
         </Link>
@@ -32,7 +35,6 @@ function Home() {
         <Link to="/dashboard/newPost" className="dashboard-item">
           <img src="/public/add-post.png" alt="View all posts" />
         </Link> */}
-        <GetLatestPost />
 
         {/* <Link to="/posts" className="dashboard-item">
               <img src="/public/see-posts.png" alt="View all posts" />

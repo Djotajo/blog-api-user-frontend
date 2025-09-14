@@ -5,11 +5,11 @@
 }
 
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
   text-align: center;
   width: 100%;
-  background-color: antiquewhite;
+  background-color: #eaeaf2;
 }
 
 body {
@@ -52,8 +52,15 @@ body {
   color: #888;
 }
 .posts {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
   padding-top: 10vh;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .posts ul {
@@ -73,7 +80,7 @@ body {
   display: flex;
   flex-direction: column;
   border: 1px solid black;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   padding: 1em;
   margin: 1em;
@@ -82,6 +89,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.post h3 {
+  justify-self: flex-start;
 }
 
 .post-text {
@@ -154,7 +172,7 @@ nav {
   height: 10vh;
   padding: 0 2rem;
 
-  max-width: 1280px;
+  /* max-width: 1280px; */
   right: 0;
   margin: auto;
 }
@@ -197,13 +215,40 @@ nav h1 {
 }
 
 .hero {
-  min-height: 50vh;
-  width: 100%;
-  display: flex;
-  margin-top: 10vh;
+  /* min-height: 50vh; */
+  /* width: 100%; */
+  /* display: flex; */
+  /* margin-top: 10vh; */
 }
 
-.hero-left,
+.hero {
+  background-image: url("/Users/djordje/Desktop/repos/blog-api-user-frontend/public/emile-perron-xrVDYZRGdw4-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15vh;
+}
+
+h1 {
+  font-size: 3em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+/* .hero-left,
 .hero-right {
   min-width: 50%;
   display: flex;
@@ -214,7 +259,7 @@ nav h1 {
 .hero-left {
   background-image: url("../public/IMG20250723164259.jpg");
   background-size: cover;
-}
+} */
 
 footer {
   display: flex;
@@ -231,11 +276,11 @@ footer {
   width: 100%;
   height: 5vh;
 
-  max-width: 1280px;
+  /* max-width: 1280px; */
   left: 0;
   right: 0;
   margin: auto;
-  margin-top: 10em;
+  /* margin-top: 10em; */
 }
 
 @media (max-width: 768px) {
@@ -255,10 +300,67 @@ footer {
 .new-member-form {
   display: flex;
   flex-direction: column;
-  margin-top: 15vh;
+  justify-content: center;
+  gap: 1em;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-fullscreen {
+  height: calc(100vh - 5vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1em;
+}
+
+.latest-posts-container {
+  max-width: 1280px;
 }
 
 .latest-posts-content {
   display: flex;
-  /* flex-direction: column; */
+}
+
+.posts {
+  width: 100%;
+  padding-top: 10vh;
+  /* height: calc(100vh - 5vh); */
+  overflow-y: auto;
+}
+
+.posts ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 400px;
+  overflow: hidden;
+  padding-left: 0;
+}
+
+.posts-list-item {
+  display: flex;
+  flex: 1;
+}
+
+.post {
+  background-color: #fdfdfd;
+}
+
+.post-image {
+  width: 100%;
+  /* height: 100px; */
+}
+/* Photo by <a href="https://unsplash.com/@emilep?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Emile Perron</a> on <a href="https://unsplash.com/photos/macbook-pro-showing-programming-language-xrVDYZRGdw4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+       */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

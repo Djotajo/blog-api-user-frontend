@@ -107,7 +107,7 @@ function LogIn() {
   };
 
   return (
-    <>
+    <div className="login-fullscreen">
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Log In</h2>
         {loginError && <p style={{ color: "red" }}>{loginError}</p>}
@@ -126,6 +126,7 @@ function LogIn() {
         <input
           id="password"
           name="password"
+          placeholder="password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
@@ -152,7 +153,7 @@ function LogIn() {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

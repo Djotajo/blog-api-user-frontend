@@ -25,9 +25,9 @@ function GetPosts() {
             <li key={post.id} className="posts-list-item">
               {" "}
               <article className="post">
-                <h2>
-                  <Link to={`/${post.id}`}>{post.title}</Link>
-                </h2>{" "}
+                <h3>
+                  <Link to={`/posts/${post.id}`}>{post.title}</Link>
+                </h3>{" "}
                 <p className="post-text">{post.text}</p>
                 <div className="post-footer">
                   {" "}
