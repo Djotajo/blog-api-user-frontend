@@ -65,31 +65,55 @@ function EditComment({ commentObject }, key) {
     }
   };
 
+  if (!isEditing) {
+    return (
+      <button className="edit-btn" onClick={() => setIsEditing(true)}>
+        Edit
+      </button>
+    );
+  }
+
   return (
     <>
-      <button onClick={() => setIsEditing(true)}>Edit</button>
-      {isEditing && (
-        <form onSubmit={handleSubmit} className="comment-form">
-          <fieldset>
-            <div>
-              <label htmlFor="comment">Comment: </label>
-              <textarea
-                id="comment"
-                name="comment"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                required
-                autoFocus
-                aria-required="true"
-              ></textarea>
-            </div>
-            <button type="submit">Submit</button>
-            <button onClick={() => setIsEditing(false)}>Cancel</button>
-            {/* onClick={handleCancelSubmit} */}
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-          </fieldset>
-        </form>
+      {/* {!isEditing && (
+        <button onClick={() => setIsEditing(true)} className="edit-btn">
+          Edit
+        </button>
       )}
+      {isEditing && ( */}
+      <form onSubmit={handleSubmit} className="edit-comment-form">
+        {/* <fieldset> */}
+        {/* <legend>Edit comment</legend> */}
+
+        {/* <div className="form-group"> */}
+        <label htmlFor="comment">Edit Comment: </label>
+        <textarea
+          id="comment"
+          name="comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          required
+          autoFocus
+          aria-required="true"
+          rows="4"
+        ></textarea>
+        {/* </div> */}
+        <div className="edit-comment-buttons">
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
+          <button
+            onClick={() => setIsEditing(false)}
+            className="cancel-btn"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {/* </fieldset> */}
+      </form>
+      {/* )} */}
     </>
   );
 }

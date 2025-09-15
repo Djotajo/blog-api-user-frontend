@@ -32,7 +32,7 @@ function GetPost() {
   return (
     <>
       <div className="full-post">
-        <section className="post-content">
+        <section className="full-post-content">
           <h1>{post.title}</h1>
           <div>
             {paragraphs.map((p, index) => (
@@ -40,57 +40,52 @@ function GetPost() {
             ))}
           </div>
           <p>
-            {/* {authorData.username}  */}
-            on {FormatPostDate(post.createdAt)}
+            {post.author.username} on {FormatPostDate(post.createdAt)}
           </p>
 
           <p>Comments: {post.Comment.length}</p>
         </section>
 
-        <section className="comment-form">
-          <h3>Add a comment</h3>
+        <section className="full-post-comment-form">
           <PostComment />
         </section>
         <section
-          className="comments-section"
-          aria-labelledby="comments-heading"
+          className="full-post-comments-section"
+          aria-labelledby="full-post-comments-heading"
         >
-          <h2 id="comments-heading">Comments</h2>
+          <h2 id="full-post-comments-heading">Comments</h2>
           {post.Comment.map((comment, index) => (
-            <article key={comment.id || index} className="comment">
+            <article key={comment.id || index} className="full-post-comment">
               <header>
-                <p>{comment.id}</p>
-                <cite className="comment-author">
+                <cite className="full-post-comment-author">
                   {comment.commentByAuthor
                     ? comment.commentByAuthor.username
-                    : comment.commentByUser.username}
+                    : comment.commentByUser.username}{" "}
                 </cite>
-                <time dateTime={comment.createdAt} className="comment-date">
+                on{" "}
+                <time
+                  dateTime={comment.createdAt}
+                  className="full-post-comment-date"
+                >
                   {new Date(comment.createdAt).toLocaleDateString()}
                 </time>
               </header>
-              <p className="comment-content">{comment.text}</p>
-              {/* provjeriti */}
+              <p className="full-post-comment-content">{comment.text}</p>
               {comment.commentByUser ? (
                 currentUser && comment.commentByUser.id === currentUser.id ? (
-                  <>
-                    <EditComment commentObject={comment} key={comment.id} />
+                  <div className="comment-actions">
+                    <EditComment commentObject={comment} />
                     <DeleteComment commentObject={comment} />
-                  </>
+                  </div>
                 ) : (
-                  `Log in user to edit`
+                  ``
                 )
               ) : currentUser &&
                 comment.commentByAuthor.id === currentUser.id ? (
                 <EditComment commentObject={comment} />
               ) : (
-                "Log in to edit"
+                ""
               )}
-              {/* {currentUser && comment.commentByUser.id === currentUser.id ? (
-                <EditComment commentObject={comment} />
-              ) : (
-                "Log in to edit"
-              )} */}
             </article>
           ))}
         </section>

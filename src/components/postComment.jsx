@@ -56,16 +56,13 @@ function PostComment() {
       console.error("Error submitting comment:", error);
     }
   };
-  //   function handleCancelSubmit(event) {
-  //     event.preventDefault();
-  //     handleCancel();
-  //   }
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="comment-form">
+      <form onSubmit={handleSubmit} className="full-post-comment-form">
         <fieldset>
-          <div>
+          <legend>Add a comment</legend>
+          <div className="form-group">
             <label htmlFor="comment">Comment: </label>
             <textarea
               id="comment"
@@ -73,13 +70,15 @@ function PostComment() {
               onChange={(e) => setComment(e.target.value)}
               required
               autoFocus
+              value={comment}
               aria-required="true"
+              rows="4"
             ></textarea>
           </div>
-          <button type="submit">Submit</button>
-          <button>Cancel</button>
-          {/* onClick={handleCancelSubmit} */}
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
+          {errorMessage && <p className="error-msg">{errorMessage}</p>}
         </fieldset>
       </form>
     </>

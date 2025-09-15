@@ -18,32 +18,43 @@ function GetPosts() {
 
   return (
     <>
-      <div className="posts">
-        <h1>Posts</h1>
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id} className="posts-list-item">
-              {" "}
-              <article className="post">
-                <h3>
-                  <Link to={`/posts/${post.id}`}>{post.title}</Link>
-                </h3>{" "}
-                <p className="post-text">{post.text}</p>
-                <div className="post-footer">
-                  {" "}
-                  <span>
-                    {/* {authorData.username}  */}
-                    on {FormatPostDate(post.createdAt)}
-                  </span>
-                  <span className="post-comment">
-                    <i className="material-icons">comment</i>{" "}
-                    {post.Comment.length}
-                  </span>
-                </div>
-              </article>
-            </li>
-          ))}
-        </ul>
+      <div className="posts-container">
+        <div className="posts-header">
+          <h2>All Articles</h2>
+        </div>
+        <div className="posts-content">
+          <ul>
+            {posts.map((post) => (
+              <li key={post.id} className="posts-list-item">
+                {" "}
+                <article className="post">
+                  <img
+                    src="public/og-logo-2bdf3a30.png"
+                    alt=""
+                    className="post-image"
+                  />
+                  <div className="post-content">
+                    <h3>
+                      <Link to={`/posts/${post.id}`}>{post.title}</Link>
+                    </h3>{" "}
+                    <p className="post-text">{post.text}</p>
+                    <div className="post-footer">
+                      {" "}
+                      <span>
+                        {post.author.username} on on{" "}
+                        {FormatPostDate(post.createdAt)}
+                      </span>
+                      <span className="post-comment">
+                        <i className="material-icons">comment</i>{" "}
+                        {post.Comment.length}
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );

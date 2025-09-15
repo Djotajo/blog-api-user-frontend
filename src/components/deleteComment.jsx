@@ -35,7 +35,9 @@ function DeleteComment({ commentObject }) {
 
   return (
     <form onSubmit={handleSubmit} className="delete-comment-form">
-      <button type="submit">Delete</button>
+      <button type="submit" className="delete-btn">
+        Delete
+      </button>
       {/* onClick={handleCancelSubmit} */}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </form>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 
 import "./App.css";
 
@@ -50,6 +51,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <nav>
           <h1>Random Blog Website</h1>
           <ul className="nav-links">
