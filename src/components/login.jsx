@@ -53,53 +53,14 @@ function LogIn() {
         login(token);
         console.log("Login sauccessful, global state updated.");
         navigate("/");
-      }
-      // localStorage.setItem("jwt_token", token);
-      // setTokenReceived(token);
-      // console.log("JWT Token stored in localStorage.");
-
-      // 3. Decode the token to get user information (username and id)
-      // This decoding is *only* for client-side display/initial check.
-      // The authoritative source for user identity is always the backend verifying the token.
-      // try {
-      //   const decodedToken = jwtDecode(token);
-      //   const { username: loggedInUsername, id: loggedInUserId } =
-      //     decodedToken;
-      //   setLoggedInUser({ username: loggedInUsername, id: loggedInUserId });
-      //   console.log(
-      //     `Decoded user: ${loggedInUsername} (ID: ${loggedInUserId})`
-      //   );
-
-      // --- Placeholder for Step 2: Global State Update (AuthContext) ---
-      // In the next step, after creating AuthContext, you would replace or add:
-      // login(loggedInUsername, loggedInUserId);
-      // (assuming 'login' is a function from useAuth() in AuthContext)
-      // --- END Placeholder ---
-
-      // 4. Navigate to a different page after successful login
-      // (You can uncomment this and direct it to your dashboard or home page)
-      // navigate('/dashboard');
-      //   } catch (decodeError) {
-      //     console.error(
-      //       "Error decoding JWT token on client-side:",
-      //       decodeError
-      //     );
-      //     // If the token itself is invalid or corrupted, clear it and inform the user
-      //     localStorage.removeItem("jwt_token");
-      //     setLoginError(
-      //       "Login successful, but there was an issue decoding the token. Please try again."
-      //     );
-      //     setLoggedInUser(null);
-      //     setTokenReceived(null);
-      //   }
-      // }
-      else {
+      } else {
         setLoginError(
           "Login successful, but no token was received from the server. Please contact support."
         );
       }
     } catch (error) {
       console.error("Error during login request:", error);
+      console.log(error);
       setLoginError(error.message); // Display the error message from the thrown error
       setLoggedInUser(null);
       setTokenReceived(null);

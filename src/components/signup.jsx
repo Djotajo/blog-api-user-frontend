@@ -1,9 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessages, setErrorMessages] = useState("");
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -14,6 +20,11 @@ function SignUp() {
     };
 
     try {
+      if (password !== confirmPassword) {
+        // alert("Passwords do not match");
+        setErrorMessages(["Passwords do not match"]);
+        return;
+      }
       const apiEndpoint = `http://localhost:3000/signup`;
 
       const response = await fetch(apiEndpoint, {
@@ -25,13 +36,29 @@ function SignUp() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get user");
+        const err = await response.json();
+        if (err.errors && Array.isArray(err.errors)) {
+          setErrorMessages(err.errors.map((e) => e.msg));
+        } else {
+          setErrorMessages([err.message || "Failed to create account"]);
+        }
+        setSuccessMessage("");
+        return;
       }
 
       const newUser = await response.json();
       console.log("Profile created successfully:", newUser);
+
+      setSuccessMessage("✅ Account created successfully! Redirecting...");
+      setErrorMessages("");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
       console.error("Error creating profile:", error);
+      setErrorMessages(error.message || "Something went wrong");
+      setSuccessMessage("");
     }
   };
 
@@ -44,14 +71,11 @@ function SignUp() {
           name="username"
           id="username"
           placeholder="Username"
+          required
           onChange={(e) => setUsername(e.target.value)}
         />
 
         <label htmlFor="password">Password </label>
-        <span>
-          (at least 8 characters including 1 lowercase letter, 1 uppercase
-          letter, 1 number, and 1 symbol)
-        </span>
         <input
           type="password"
           name="password"
@@ -60,6 +84,13 @@ function SignUp() {
           required
           onChange={(e) => setPassword(e.target.value)}
         />
+        <ul className="password-requirements">
+          <li>8 characters minimum</li>
+          <li>1 lowercase letter</li>
+          <li>1 uppercase letter</li>
+          <li>1 number</li>
+          <li>1 symbol</li>
+        </ul>
 
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input
@@ -72,6 +103,15 @@ function SignUp() {
         />
 
         <button type="submit">Submit</button>
+
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+        {errorMessages.length > 0 && (
+          <ul className="signup-errors">
+            {errorMessages.map((msg, idx) => (
+              <li key={idx}>{msg}</li>
+            ))}
+          </ul>
+        )}
       </form>
       <a href="./login">Already have an account? Sign in here</a>
     </div>

@@ -296,26 +296,98 @@ footer {
   }
 }
 
-.login-form,
-.new-member-form {
+.login-fullscreen {
+  min-height: calc(100vh - 5vh);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1em;
-  width: 100%;
+  /* max-width: 20%; */
   margin-left: auto;
   margin-right: auto;
+  gap: 1em;
+  background-color: #eaeaf2;
+  align-items: center;
 }
 
-.login-fullscreen {
-  height: calc(100vh - 5vh);
+.login-fullscreen a {
+  margin-bottom: 5vh;
+}
+
+/* The signup form box */
+.login-form,
+.new-member-form {
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  margin-top: 15vh;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  max-width: 20%;
-  margin-left: auto;
-  margin-right: auto;
-  gap: 1em;
+  gap: 1rem;
+}
+
+/* Labels */
+.new-member-form label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #1e1e2f;
+}
+
+/* Inputs */
+.new-member-form input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.new-member-form input:focus {
+  outline: none;
+  border-color: #1e1e2f;
+  box-shadow: 0 0 0 2px rgba(30, 30, 47, 0.15);
+}
+
+/* Password requirements */
+.password-requirements {
+  font-size: 0.85rem;
+  color: #555;
+  margin: -0.5rem 0 0.5rem 0;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+/* Button */
+.new-member-form button {
+  background-color: #1e1e2f;
+  color: #fff;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.new-member-form button:hover {
+  background-color: #2d2d47;
+}
+
+/* Link below form */
+.login-fullscreen a {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: #1e1e2f;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.login-fullscreen a:hover {
+  text-decoration: underline;
 }
 
 .latest-posts-container {
@@ -591,4 +663,22 @@ footer {
 .delete-comment-form {
   display: inline;
   margin-left: 1em;
+}
+
+.password-requirements {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: left;
+}
+
+.password-requirements li {
+  margin-bottom: 0.25rem;
+}
+
+.signup-errors {
+  padding-left: 0;
+  color: red;
+  text-align: left;
 }

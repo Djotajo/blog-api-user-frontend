@@ -41,7 +41,7 @@ function GetPosts() {
                     <div className="post-footer">
                       {" "}
                       <span>
-                        {post.author.username} on on{" "}
+                        {post.author.username} on{" "}
                         {FormatPostDate(post.createdAt)}
                       </span>
                       <span className="post-comment">
