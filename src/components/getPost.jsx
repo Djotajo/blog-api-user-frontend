@@ -9,8 +9,7 @@ import { useAuth } from "../context/AuthContext";
 function GetPost() {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
-
+  const { currentUser, loadingInitial } = useAuth();
   useEffect(() => {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);

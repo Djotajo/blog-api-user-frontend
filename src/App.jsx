@@ -1,7 +1,7 @@
-import { useState } from "react";
-import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+
+import { useState } from "react";
 
 import "./App.css";
 
@@ -17,12 +17,12 @@ function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
 
   if (loadingInitial) {
-    return null; // Or <span>Loading session...</span>;
+    return null;
   }
 
   if (currentUser && currentUser.isAuthenticated) {
     return (
-      <li className="nav-item">
+      <>
         <p style={{ margin: 0, color: "white", display: "inline-block" }}>
           Welcome, <strong>{currentUser.username}</strong>!{" "}
         </p>
@@ -40,7 +40,7 @@ function AuthStatus() {
         >
           Logout
         </button>
-      </li>
+      </>
     );
   } else {
     return <Link to="/login">Log In</Link>;
@@ -50,36 +50,56 @@ function AuthStatus() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <nav>
-          <h1>Random Blog Website</h1>
-          <ul className="nav-links">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/posts">All Articles</Link>
-            </li>
-
-            <AuthStatus />
-          </ul>
-        </nav>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/posts" element={<GetPosts />} />
-
-          <Route path="/posts/:postId" element={<GetPost />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-        </Routes>
-
-        <footer>
-          <p>Made by Djotajo</p>
-        </footer>
-      </Router>
+      <AppContent />
     </AuthProvider>
+  );
+}
+
+function AppContent() {
+  const { currentUser, loadingInitial } = useAuth();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  if (loadingInitial) return null;
+
+  return (
+    <>
+      <ScrollToTop />
+      <nav>
+        <h1>Random Blog Website</h1>
+        <button className="menu-toggle" onClick={() => setIsOpen(!isOpen)}>
+          ☰
+        </button>
+        <ul className={`nav-links ${isOpen ? "open" : ""}`}>
+          <li>
+            <Link to="/" onClick={() => setIsOpen(false)}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/posts" onClick={() => setIsOpen(false)}>
+              All Articles
+            </Link>
+          </li>
+          <li className="nav-item" onClick={() => setIsOpen(false)}>
+            <AuthStatus />
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/posts" element={<GetPosts />} />
+
+        <Route path="/posts/:postId" element={<GetPost />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<LogIn />} />
+      </Routes>
+
+      <footer>
+        <p>Made by Djotajo</p>
+      </footer>
+    </>
   );
 }
 

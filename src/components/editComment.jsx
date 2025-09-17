@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -6,23 +6,18 @@ import { useNavigate } from "react-router-dom";
 function EditComment({ commentObject }, key) {
   const [comment, setComment] = useState(commentObject.text);
   const [isEditing, setIsEditing] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState("");
-
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
-
+  const { currentUser, loadingInitial } = useAuth();
   const { postId } = useParams();
-
   const commentId = commentObject.id;
+  const token = localStorage.getItem("jwt_token");
 
   const navigate = useNavigate();
 
-  // Handle the initial loading state (checking token in localStorage)
   if (loadingInitial) {
     return <p>Loading user information...</p>;
   }
 
-  // Check if there is a logged-in user
   if (!currentUser || !currentUser.isAuthenticated) {
     return <p>You are not logged in.</p>;
   }
@@ -38,25 +33,21 @@ function EditComment({ commentObject }, key) {
     };
 
     try {
-      // provjeriti api endpoint
       const apiEndpoint = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
 
       const response = await fetch(apiEndpoint, {
-        // provjeriti metodu
         method: "PUT",
         headers: {
-          "Content-Type": "application/json", // Tell the API we're sending JSON
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(commentData), // Convert your data to JSON string
+        body: JSON.stringify(commentData),
       });
 
       if (!response.ok) {
         throw new Error("Failed to edit comment");
       }
 
-      // 4. Get the response from the API (e.g., the new comment object)
-      const editedComment = await response.json();
-      console.log("Comment edited successfully:", editedComment);
       setIsEditing(false);
       setComment("");
       navigate(0);
@@ -75,17 +66,7 @@ function EditComment({ commentObject }, key) {
 
   return (
     <>
-      {/* {!isEditing && (
-        <button onClick={() => setIsEditing(true)} className="edit-btn">
-          Edit
-        </button>
-      )}
-      {isEditing && ( */}
       <form onSubmit={handleSubmit} className="edit-comment-form">
-        {/* <fieldset> */}
-        {/* <legend>Edit comment</legend> */}
-
-        {/* <div className="form-group"> */}
         <label htmlFor="comment">Edit Comment: </label>
         <textarea
           id="comment"
@@ -97,7 +78,6 @@ function EditComment({ commentObject }, key) {
           aria-required="true"
           rows="4"
         ></textarea>
-        {/* </div> */}
         <div className="edit-comment-buttons">
           <button type="submit" className="submit-btn">
             Submit
@@ -111,9 +91,7 @@ function EditComment({ commentObject }, key) {
           </button>
         </div>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-        {/* </fieldset> */}
       </form>
-      {/* )} */}
     </>
   );
 }

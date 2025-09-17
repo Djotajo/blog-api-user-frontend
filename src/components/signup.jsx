@@ -21,7 +21,6 @@ function SignUp() {
 
     try {
       if (password !== confirmPassword) {
-        // alert("Passwords do not match");
         setErrorMessages(["Passwords do not match"]);
         return;
       }

@@ -7,17 +7,16 @@ function PostComment() {
   const [comment, setComment] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwt_token");
 
   const { postId } = useParams();
 
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
+  const { currentUser, loadingInitial } = useAuth();
 
-  // Handle the initial loading state (checking token in localStorage)
   if (loadingInitial) {
     return <p>Loading user information...</p>;
   }
 
-  // Check if there is a logged-in user
   if (!currentUser || !currentUser.isAuthenticated) {
     return <p>You are not logged in.</p>;
   }
@@ -37,23 +36,23 @@ function PostComment() {
       const response = await fetch(apiEndpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", // Tell the API we're sending JSON
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(commentData), // Convert your data to JSON string
+        body: JSON.stringify(commentData),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add comment");
-      }
+        const errorData = await response.json();
 
-      // 4. Get the response from the API (e.g., the new comment object)
-      const newComment = await response.json();
-      console.log("Comment added successfully:", newComment);
+        throw new Error(errorData.message || "Failed to add comment");
+      }
 
       setComment("");
       navigate(0);
     } catch (error) {
       console.error("Error submitting comment:", error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -63,14 +62,13 @@ function PostComment() {
         <fieldset>
           <legend>Add a comment</legend>
           <div className="form-group">
-            <label htmlFor="comment">Comment: </label>
             <textarea
               id="comment"
               name="comment"
               onChange={(e) => setComment(e.target.value)}
               required
-              autoFocus
               value={comment}
+              aria-label="Comment"
               aria-required="true"
               rows="4"
             ></textarea>

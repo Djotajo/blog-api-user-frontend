@@ -1,26 +1,20 @@
 import { useState } from "react";
-import FormatPostDate from "./formatPostDate";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
 
 function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState(""); // State to hold login error messages
-  const [loggedInUser, setLoggedInUser] = useState(null); // New state to temporarily hold decoded user info for display
-  const [tokenReceived, setTokenReceived] = useState(null); // New state to hold the raw token
+  const [loginError, setLoginError] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [tokenReceived, setTokenReceived] = useState(null);
 
   const { login } = useAuth();
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoginError(""); // Clear any previous errors on new submission
-    // setLoggedInUser(null);
-    // setTokenReceived(null);
+    setLoginError("");
 
     const userData = {
       username: username,
@@ -45,14 +39,10 @@ function LogIn() {
 
       const responseData = await response.json();
 
-      console.log("Login successful:", responseData);
-
       const token = responseData.token;
 
       if (token) {
         login(token);
-        console.log("Login sauccessful, global state updated.");
-        navigate("/");
       } else {
         setLoginError(
           "Login successful, but no token was received from the server. Please contact support."
@@ -60,7 +50,6 @@ function LogIn() {
       }
     } catch (error) {
       console.error("Error during login request:", error);
-      console.log(error);
       setLoginError(error.message); // Display the error message from the thrown error
       setLoggedInUser(null);
       setTokenReceived(null);

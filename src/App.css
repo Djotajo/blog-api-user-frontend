@@ -5,7 +5,6 @@
 }
 
 #root {
-  /* max-width: 1280px; */
   margin: 0 auto;
   text-align: center;
   width: 100%;
@@ -158,6 +157,7 @@ body {
 /* General navbar styles */
 nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   background: #1e1e2f;
@@ -172,7 +172,6 @@ nav {
   height: 10vh;
   padding: 0 2rem;
 
-  /* max-width: 1280px; */
   right: 0;
   margin: auto;
 }
@@ -215,13 +214,6 @@ nav h1 {
 }
 
 .hero {
-  /* min-height: 50vh; */
-  /* width: 100%; */
-  /* display: flex; */
-  /* margin-top: 10vh; */
-}
-
-.hero {
   background-image: url("/Users/djordje/Desktop/repos/blog-api-user-frontend/public/emile-perron-xrVDYZRGdw4-unsplash.jpg");
   background-size: cover;
   background-position: center;
@@ -248,19 +240,6 @@ h3 {
   font-size: 1.5em;
 }
 
-/* .hero-left,
-.hero-right {
-  min-width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero-left {
-  background-image: url("../public/IMG20250723164259.jpg");
-  background-size: cover;
-} */
-
 footer {
   display: flex;
   justify-content: center;
@@ -276,11 +255,9 @@ footer {
   width: 100%;
   height: 5vh;
 
-  /* max-width: 1280px; */
   left: 0;
   right: 0;
   margin: auto;
-  /* margin-top: 10em; */
 }
 
 @media (max-width: 768px) {
@@ -301,7 +278,6 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* max-width: 20%; */
   margin-left: auto;
   margin-right: auto;
   gap: 1em;
@@ -407,7 +383,6 @@ footer {
 .posts {
   width: 100%;
   padding-top: 10vh;
-  /* height: calc(100vh - 5vh); */
   overflow-y: auto;
 }
 
@@ -415,7 +390,6 @@ footer {
   list-style-type: none;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  /* grid-auto-rows: 400px; */
   grid-auto-rows: 1fr;
   overflow: hidden;
   padding-left: 0;
@@ -432,7 +406,6 @@ footer {
 
 .post-image {
   width: 100%;
-  /* height: 100px; */
 }
 /* Photo by <a href="https://unsplash.com/@emilep?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Emile Perron</a> on <a href="https://unsplash.com/photos/macbook-pro-showing-programming-language-xrVDYZRGdw4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
        */
@@ -601,10 +574,8 @@ footer {
 }
 
 .comment-actions {
-  /* display: flex; */
   gap: 0.5rem; /* space between buttons */
   margin-top: 0.5rem;
-  /* justify-content: flex-end; */
   text-align: right;
 }
 
@@ -681,4 +652,57 @@ footer {
   padding-left: 0;
   color: red;
   text-align: left;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #1e1e2f;
+    display: none;
+    margin-top: 0;
+    align-items: center;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .posts ul {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 300px;
+    overflow: hidden;
+    padding-left: 0;
+  }
+
+  .posts-content ul {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+    overflow: hidden;
+    padding-left: 0;
+  }
+
+  .latest-posts-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+    overflow: hidden;
+    padding-left: 0;
+  }
 }

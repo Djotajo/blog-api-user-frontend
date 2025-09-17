@@ -1,67 +1,92 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("jwt_token");
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        // Check for token expiration
-        const currentTime = Date.now() / 1000; // Convert to seconds
+        const currentTime = Date.now() / 1000;
         if (decoded.exp > currentTime) {
-          // Token is valid and not expired
           setCurrentUser({
             username: decoded.username,
             id: decoded.id,
             isAuthenticated: true,
+            role: decoded.role,
+            exp: decoded.exp,
           });
         } else {
-          // Token expired, remove it from localStorage
           console.log("JWT Token expired.");
           localStorage.removeItem("jwt_token");
           setCurrentUser(null);
+          navigate("/login");
         }
       } catch (error) {
-        // Token is invalid (e.g., malformed, signature mismatch)
         console.error(
           "Error decoding or verifying JWT token from localStorage:",
           error
         );
-        localStorage.removeItem("jwt_token"); // Remove invalid token
+        localStorage.removeItem("jwt_token");
         setCurrentUser(null);
       }
     }
-    setLoadingInitial(false); // Finished initial check
-  }, []);
+    setLoadingInitial(false);
+  }, [navigate]);
 
-  // const login = (username, id) => {
-  //   setCurrentUser({ username, id, isAuthenticated: true });
-  // };
+  useEffect(() => {
+    if (!currentUser || !currentUser.exp) return;
+
+    const currentTime = Date.now() / 1000;
+    const msUntilExpiry = (currentUser.exp - currentTime) * 1000;
+
+    if (msUntilExpiry <= 0) {
+      logout();
+      navigate("/login");
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      logout();
+      navigate("/login");
+    }, msUntilExpiry);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentUser, navigate]);
 
   const login = (token) => {
-    // Now accepts the token
-    // Save the token to localStorage
-    localStorage.setItem("jwt_token", token);
-
-    // Decode the token to get the user info
     const decoded = jwtDecode(token);
 
-    // Set the user state with data from the decoded token
+    if (decoded.role !== "user") {
+      alert("Access denied: You are an author, switch to author website.");
+      localStorage.removeItem("jwt_token");
+      setCurrentUser(null);
+      return;
+    }
+    localStorage.setItem("jwt_token", token);
+
     setCurrentUser({
       username: decoded.username,
       id: decoded.id,
       isAuthenticated: true,
+      role: decoded.role,
+      exp: decoded.exp,
     });
+
+    if (decoded.role === "user") {
+      navigate("/");
+    }
   };
   const logout = () => {
-    localStorage.removeItem("jwt_token"); // Remove token from localStorage
-    setCurrentUser(null); // Clear user from state
+    localStorage.removeItem("jwt_token");
+    setCurrentUser(null);
     console.log("Logged out. Token removed from localStorage.");
   };
 
@@ -69,7 +94,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     login,
     logout,
-    loadingInitial, // Provide loading status to prevent flickering
+    loadingInitial,
   };
 
   return (
