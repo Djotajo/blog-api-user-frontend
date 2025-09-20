@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function LogIn() {
@@ -50,7 +49,7 @@ function LogIn() {
       }
     } catch (error) {
       console.error("Error during login request:", error);
-      setLoginError(error.message); // Display the error message from the thrown error
+      setLoginError(error.message);
       setLoggedInUser(null);
       setTokenReceived(null);
     }
