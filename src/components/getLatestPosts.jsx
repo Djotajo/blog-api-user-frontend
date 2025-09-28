@@ -39,7 +39,7 @@ function GetLatestPost() {
                 {" "}
                 <article className="post">
                   <img
-                    src="public/og-logo-2bdf3a30.png"
+                    src="/og-logo-2bdf3a30.png"
                     alt=""
                     className="post-image"
                   />
@@ -80,7 +80,7 @@ function GetLatestPost() {
                 {" "}
                 <article className="post">
                   <img
-                    src="public/og-logo-2bdf3a30.png"
+                    src="/og-logo-2bdf3a30.png"
                     alt=""
                     className="post-image"
                   />
