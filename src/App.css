@@ -214,7 +214,9 @@ nav h1 {
 }
 
 .hero {
-  background-image: url("/Users/djordje/Desktop/repos/blog-api-user-frontend/public/emile-perron-xrVDYZRGdw4-unsplash.jpg");
+  /* background-image: url("/Users/djordje/Desktop/repos/blog-api-user-frontend/public/emile-perron-xrVDYZRGdw4-unsplash.jpg"); */
+  background-image: url("/emile-perron-xrVDYZRGdw4-unsplash.jpg");
+
   background-size: cover;
   background-position: center;
   height: 100vh;
