@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function SignUp() {
   const [username, setUsername] = useState("");
@@ -7,6 +8,7 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessages, setErrorMessages] = useState("");
+  const apiUrl = useApiUrl();
 
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ function SignUp() {
         setErrorMessages(["Passwords do not match"]);
         return;
       }
-      const apiEndpoint = `http://localhost:3000/signup`;
+      const apiEndpoint = `${apiUrl}/signup`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",

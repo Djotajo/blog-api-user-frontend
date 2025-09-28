@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import FormatPostDate from "./formatPostDate.jsx";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetLatestPost() {
   const [posts, setPosts] = useState([]);
@@ -12,9 +13,12 @@ function GetLatestPost() {
 
   const stickyPosts = posts.filter((post) => post.sticky);
 
+  const apiUrl = useApiUrl();
+
   useEffect(() => {
     async function fetchPostData() {
-      const url = `http://localhost:3000/posts`;
+      const url = `${apiUrl}/posts`;
+
       const response = await fetch(url);
       const responseJson = await response.json();
       setPosts(responseJson);

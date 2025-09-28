@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
 
 import { useState } from "react";
 
@@ -8,6 +7,8 @@ import "./App.css";
 import GetPosts from "./components/getPosts";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ApiUrlProvider } from "./context/ApiUrlContext";
+
 import GetPost from "./components/getPost";
 import LogIn from "./components/login";
 import SignUp from "./components/signup";
@@ -64,7 +65,6 @@ function AppContent() {
 
   return (
     <>
-      <ScrollToTop />
       <nav>
         <h1>Random Blog Website</h1>
         <button className="menu-toggle" onClick={() => setIsOpen(!isOpen)}>

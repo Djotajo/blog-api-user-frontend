@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetPosts() {
   const [posts, setPosts] = useState([]);
+  const apiUrl = useApiUrl();
 
   useEffect(() => {
     async function fetchPostData() {
-      const response = await fetch(`http://localhost:3000/posts/`);
+      const response = await fetch(`${apiUrl}/posts`);
+
       const responseJson = await response.json();
-      // setAuthorData(responseJson);
       setPosts(responseJson);
     }
 

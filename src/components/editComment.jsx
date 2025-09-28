@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function EditComment({ commentObject }, key) {
   const [comment, setComment] = useState(commentObject.text);
@@ -11,6 +12,7 @@ function EditComment({ commentObject }, key) {
   const { postId } = useParams();
   const commentId = commentObject.id;
   const token = localStorage.getItem("jwt_token");
+  const apiUrl = useApiUrl();
 
   const navigate = useNavigate();
 
@@ -33,7 +35,7 @@ function EditComment({ commentObject }, key) {
     };
 
     try {
-      const apiEndpoint = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
+      const apiEndpoint = `${apiUrl}/posts/${postId}/comments/${commentId}`;
 
       const response = await fetch(apiEndpoint, {
         method: "PUT",

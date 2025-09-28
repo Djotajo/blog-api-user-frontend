@@ -8,13 +8,16 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
+import { ApiUrlProvider } from "./context/ApiUrlContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <ScrollToTop />
       <AuthProvider>
-        <App />
+        <ApiUrlProvider>
+          <App />
+        </ApiUrlProvider>
       </AuthProvider>
     </BrowserRouter>{" "}
   </StrictMode>

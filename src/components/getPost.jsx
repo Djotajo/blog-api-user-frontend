@@ -5,14 +5,17 @@ import PostComment from "./postComment";
 import EditComment from "./editComment";
 import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetPost() {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
   const { currentUser, loadingInitial } = useAuth();
+  const apiUrl = useApiUrl();
+
   useEffect(() => {
     async function fetchPostData() {
-      const response = await fetch(`http://localhost:3000/posts/${postId}`);
+      const response = await fetch(`${apiUrl}/posts/${postId}`);
       const responseJson = await response.json();
       setPost(responseJson);
     }
